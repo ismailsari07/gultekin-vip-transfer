@@ -2,9 +2,15 @@
 import { CalendarCheck, MessageCircle, ShieldCheck, MonitorPlay, Clock } from "lucide-react";
 import { waLink } from "@/lib/contact";
 import { useReveal } from "@/lib/useReveal";
+import { useT } from "@/lib/LanguageContext";
+
+const TRUST_ICONS = [ShieldCheck, MonitorPlay, Clock];
 
 export default function Hero() {
   const ref = useReveal();
+  const { t } = useT();
+  const trust = t("hero.trust");
+
   return (
     <section className="hero" id="hero" ref={ref}>
       <div className="hero__bg"></div>
@@ -14,38 +20,37 @@ export default function Hero() {
       <div className="wrap hero__inner">
         <div className="hero__content">
           <span className="hero__pill reveal">
-            <span className="dot"></span> Antalya merkezli · 7/24 VIP transfer
+            <span className="dot"></span> {t("hero.pill")}
           </span>
           <h1 className="reveal" data-d="1">
-            Antalya&apos;da konforlu ve güvenli <span className="accent">VIP transfer</span>
+            {t("hero.h1Part1")} <span className="accent">{t("hero.h1Accent")}</span>
+            {t("hero.h1Part2") && <> {t("hero.h1Part2")}</>}
           </h1>
           <p className="hero__lede reveal" data-d="2">
-            Havalimanı karşılamadan şehirlerarası yolculuğa, ekranlı VIP koltuklar ve deneyimli
-            şoförlerle Akdeniz&apos;in keyfini yol boyunca yaşayın.
+            {t("hero.lede")}
           </p>
           <div className="hero__cta reveal" data-d="3">
             <a href="#iletisim" className="btn btn--accent btn--lg">
-              <CalendarCheck /> Rezervasyon
+              <CalendarCheck /> {t("hero.ctaBook")}
             </a>
             <a
               className="btn btn--wa btn--lg"
-              href={waLink("Merhaba, transfer için fiyat ve müsaitlik öğrenebilir miyim?")}
+              href={waLink(t("hero.waMsg"))}
               target="_blank"
               rel="noopener"
             >
-              <MessageCircle /> WhatsApp&apos;tan Yaz
+              <MessageCircle /> {t("hero.ctaWa")}
             </a>
           </div>
           <div className="hero__trust reveal" data-d="4">
-            <span className="hero__trust-item">
-              <ShieldCheck /> Güvenli &amp; sigortalı yolculuk
-            </span>
-            <span className="hero__trust-item">
-              <MonitorPlay /> Koltuklarda ekran
-            </span>
-            <span className="hero__trust-item">
-              <Clock /> 7/24 hizmet
-            </span>
+            {trust.map((label, i) => {
+              const Icon = TRUST_ICONS[i];
+              return (
+                <span className="hero__trust-item" key={i}>
+                  <Icon /> {label}
+                </span>
+              );
+            })}
           </div>
         </div>
       </div>

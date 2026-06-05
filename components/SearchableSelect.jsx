@@ -2,7 +2,7 @@
 import { useState, useRef, useEffect } from "react";
 import { ChevronDown, X } from "lucide-react";
 
-export default function SearchableSelect({ id, name, placeholder, options, value, onChange }) {
+export default function SearchableSelect({ id, name, placeholder, options, value, onChange, noResults = "Sonuç bulunamadı" }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const wrapRef = useRef(null);
@@ -106,7 +106,7 @@ export default function SearchableSelect({ id, name, placeholder, options, value
               </li>
             ))
           ) : (
-            <li className="ss__item ss__item--none">Sonuç bulunamadı</li>
+            <li className="ss__item ss__item--none">{noResults}</li>
           )}
         </ul>
       )}

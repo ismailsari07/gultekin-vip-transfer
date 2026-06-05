@@ -1,51 +1,49 @@
 "use client";
 import { ShieldCheck, Sparkles, BadgeCheck, Headset } from "lucide-react";
 import { useReveal } from "@/lib/useReveal";
+import { useT } from "@/lib/LanguageContext";
 
-const VALUES = [
-  { Icon: ShieldCheck, text: "Güvenli sürüş ve sigortalı araç" },
-  { Icon: Sparkles, text: "Her yolculuk öncesi temizlenen araç" },
-  { Icon: BadgeCheck, text: "Net, sürpriz olmayan uygun fiyat" },
-  { Icon: Headset, text: "Yolculuk boyunca kesintisiz iletişim" },
-];
+const VALUE_ICONS = [ShieldCheck, Sparkles, BadgeCheck, Headset];
 
-const STATS = [
-  { num: <>7/<span className="u">24</span></>, label: "Kesintisiz hizmet" },
-  { num: "VIP", label: "Özel döşeme Ford araç" },
-  { num: <>81<span className="u">+</span></>, label: "İl geneli güzergah" },
-  { num: "%100", label: "Temiz & bakımlı araç" },
+// Stat display numbers are numeric/universal — only labels translate
+const STAT_NUMS = [
+  <>7/<span className="u">24</span></>,
+  "VIP",
+  <>81<span className="u">+</span></>,
+  "%100",
 ];
 
 export default function WhyUs() {
   const ref = useReveal();
+  const { t } = useT();
+  const values = t("whyUs.values");
+  const statLabels = t("whyUs.statLabels");
+
   return (
     <section className="section" id="neden" ref={ref}>
       <div className="wrap">
         <div className="why reveal">
           <div className="why__grid">
             <div>
-              <span className="eyebrow">Neden Biz</span>
-              <h2 className="h-section">Güvenle ulaşmanın konforlu yolu</h2>
-              <p className="lede">
-                Yolculuğunuzun her aşamasında öncelik güvenliğiniz ve konforunuz. Şeffaf fiyat,
-                temiz araç, zamanında hizmet.
-              </p>
+              <span className="eyebrow">{t("whyUs.eyebrow")}</span>
+              <h2 className="h-section">{t("whyUs.heading")}</h2>
+              <p className="lede">{t("whyUs.lede")}</p>
               <ul className="why__values">
-                {VALUES.map(({ Icon, text }) => (
-                  <li key={text}>
-                    <span className="ic">
-                      <Icon />
-                    </span>{" "}
-                    {text}
-                  </li>
-                ))}
+                {values.map((text, i) => {
+                  const Icon = VALUE_ICONS[i];
+                  return (
+                    <li key={i}>
+                      <span className="ic"><Icon /></span> {text}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
             <div className="stats">
-              {STATS.map((s, i) => (
+              {STAT_NUMS.map((num, i) => (
                 <div className="stat" key={i}>
-                  <div className="stat__num">{s.num}</div>
-                  <div className="stat__label">{s.label}</div>
+                  <div className="stat__num">{num}</div>
+                  <div className="stat__label">{statLabels[i]}</div>
                 </div>
               ))}
             </div>

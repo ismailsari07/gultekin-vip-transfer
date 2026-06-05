@@ -1,17 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Phone, MessageCircle } from "lucide-react";
-import { CONTACT, waLink, telLink } from "@/lib/contact";
+import { telLink, waLink } from "@/lib/contact";
+import { useT } from "@/lib/LanguageContext";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
-const LINKS = [
-  ["#hero", "Anasayfa"],
-  ["#araclar", "Araçlar"],
-  ["#hizmetler", "Hizmetler"],
-  ["#bolgeler", "Bölgeler"],
-  ["#iletisim", "İletişim"],
-];
+const NAV_HREFS = ["#hero", "#araclar", "#hizmetler", "#bolgeler", "#iletisim"];
 
 export default function Navbar() {
+  const { t } = useT();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -26,6 +23,8 @@ export default function Navbar() {
     document.body.style.overflow = open ? "hidden" : "";
   }, [open]);
 
+  const links = t("nav.links");
+
   return (
     <>
       <header className={`nav${scrolled ? " scrolled" : ""}`} id="nav">
@@ -39,16 +38,17 @@ export default function Navbar() {
           </a>
 
           <nav className="nav__menu">
-            {LINKS.map(([href, label]) => (
+            {NAV_HREFS.map((href, i) => (
               <a key={href} href={href} className="nav__link">
-                {label}
+                {links[i]}
               </a>
             ))}
           </nav>
 
           <div className="nav__actions">
+            <LanguageSwitcher />
             <a className="btn btn--accent" href={telLink}>
-              <Phone /> Hemen Ara
+              <Phone /> {t("nav.callBtn")}
             </a>
             <button
               className={`burger${open ? " open" : ""}`}
@@ -65,19 +65,23 @@ export default function Navbar() {
 
       <div className={`scrim${open ? " show" : ""}`} onClick={() => setOpen(false)}></div>
       <aside className={`mobile-menu${open ? " open" : ""}`}>
-        {[...LINKS, ["#neden", "Neden Biz"]].map(([href, label]) => (
+        {NAV_HREFS.map((href, i) => (
           <a key={href} href={href} onClick={() => setOpen(false)}>
-            {label}
+            {links[i]}
           </a>
         ))}
+        <a href="#neden" onClick={() => setOpen(false)}>
+          {t("nav.mobileExtra")}
+        </a>
+        <LanguageSwitcher className="lang-btn--menu" />
         <a
           className="btn btn--wa btn--block"
-          href={waLink("Merhaba, transfer için bilgi almak istiyorum.")}
+          href={waLink(t("nav.waMsg"))}
           target="_blank"
           rel="noopener"
           onClick={() => setOpen(false)}
         >
-          <MessageCircle /> WhatsApp&apos;tan Yaz
+          <MessageCircle /> {t("nav.waBtn")}
         </a>
       </aside>
     </>

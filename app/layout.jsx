@@ -1,5 +1,6 @@
 import { Plus_Jakarta_Sans, Space_Mono } from "next/font/google";
 import "./globals.css";
+import { LanguageProvider } from "@/lib/LanguageContext";
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -87,8 +88,10 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="tr" className={`${jakarta.variable} ${spaceMono.variable}`}>
-      <body>{children}</body>
+    <html lang="tr" className={`${jakarta.variable} ${spaceMono.variable}`} suppressHydrationWarning>
+      <body>
+        <LanguageProvider>{children}</LanguageProvider>
+      </body>
     </html>
   );
 }

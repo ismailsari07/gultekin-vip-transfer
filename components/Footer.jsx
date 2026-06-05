@@ -1,9 +1,17 @@
 "use client";
 import { Phone, MessageCircle, MapPin, Clock } from "lucide-react";
 import { CONTACT, waLink, telLink } from "@/lib/contact";
+import { useT } from "@/lib/LanguageContext";
+
+const NAV_HREFS = ["#hero", "#araclar", "#hizmetler", "#bolgeler", "#iletisim"];
+const SERVICE_HREFS = ["#hizmetler", "#hizmetler", "#hizmetler", "#hizmetler"];
 
 export default function Footer() {
+  const { t } = useT();
   const year = new Date().getFullYear();
+  const menuLinks = t("footer.menuLinks");
+  const serviceLinks = t("footer.serviceLinks");
+
   return (
     <footer className="footer">
       <div className="wrap">
@@ -16,58 +24,52 @@ export default function Footer() {
                 <span className="brand__sub">VIP Transfer</span>
               </span>
             </div>
-            <p className="footer__about">
-              Antalya merkezli VIP transfer ve turizm taşımacılığı. Konforlu araç, deneyimli şoför
-              ve 7/24 hizmet.
-            </p>
+            <p className="footer__about">{t("footer.about")}</p>
             <div className="footer__social">
-              <a href={waLink("Merhaba")} target="_blank" rel="noopener" aria-label="WhatsApp">
+              <a href={waLink(t("footer.waMsg"))} target="_blank" rel="noopener" aria-label="WhatsApp">
                 <MessageCircle />
               </a>
             </div>
           </div>
 
           <div className="footer__col">
-            <h4>Menü</h4>
-            <a href="#hero">Anasayfa</a>
-            <a href="#araclar">Araçlar</a>
-            <a href="#hizmetler">Hizmetler</a>
-            <a href="#bolgeler">Bölgeler</a>
-            <a href="#iletisim">İletişim</a>
+            <h4>{t("footer.menuHead")}</h4>
+            {NAV_HREFS.map((href, i) => (
+              <a key={href} href={href}>{menuLinks[i]}</a>
+            ))}
           </div>
 
           <div className="footer__col">
-            <h4>Hizmetler</h4>
-            <a href="#hizmetler">Havalimanı transferi</a>
-            <a href="#hizmetler">Şehirlerarası yolculuk</a>
-            <a href="#hizmetler">Grup gezileri</a>
-            <a href="#hizmetler">Günlük kiralama</a>
+            <h4>{t("footer.servicesHead")}</h4>
+            {SERVICE_HREFS.map((href, i) => (
+              <a key={i} href={href}>{serviceLinks[i]}</a>
+            ))}
           </div>
 
           <div className="footer__col">
-            <h4>İletişim</h4>
+            <h4>{t("footer.contactHead")}</h4>
             <div className="row">
               <Phone />{" "}
               <a href={telLink}>{CONTACT.phoneDisplay}</a>
             </div>
             <div className="row">
               <MessageCircle />{" "}
-              <a href={waLink("Merhaba")} target="_blank" rel="noopener">
-                WhatsApp&apos;tan yazın
+              <a href={waLink(t("footer.waMsg"))} target="_blank" rel="noopener">
+                {t("footer.waLinkText")}
               </a>
             </div>
             <div className="row">
               <MapPin /> <span>{CONTACT.location}</span>
             </div>
             <div className="row">
-              <Clock /> <span>7/24 hizmet</span>
+              <Clock /> <span>{t("footer.hoursVal")}</span>
             </div>
           </div>
         </div>
 
         <div className="footer__bottom">
-          <span>© {year} Gültekin VIP Transfer. Tüm hakları saklıdır.</span>
-          <span className="made">Antalya · VIP Transfer &amp; Turizm Taşımacılığı</span>
+          <span>© {year} {t("footer.copyrightSuffix")}</span>
+          <span className="made">{t("footer.tagline")}</span>
         </div>
       </div>
     </footer>

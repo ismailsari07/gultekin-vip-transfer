@@ -6,38 +6,36 @@ import {
 } from "lucide-react";
 import { waLink } from "@/lib/contact";
 import { useReveal } from "@/lib/useReveal";
+import { useT } from "@/lib/LanguageContext";
 
-const PHOTOS = [
-  { src: "/images/ford-ic-salon.jpg", label: "İç mekan salon" },
-  { src: "/images/ford-dis-on.jpg", label: "Dış görünüm ön" },
-  { src: "/images/ford-dis-yan.jpg", label: "Dış görünüm yan kapı" },
-  { src: "/images/ford-ic-tv.jpg", label: "İç mekan ekran" },
-  { src: "/images/ford-ic-bagaj.jpg", label: "Bagaj bölümü" },
+const PHOTO_SRCS = [
+  "/images/ford-ic-salon.jpg",
+  "/images/ford-dis-on.jpg",
+  "/images/ford-dis-yan.jpg",
+  "/images/ford-ic-tv.jpg",
+  "/images/ford-ic-bagaj.jpg",
 ];
 
-const FEATS = [
-  { Icon: Armchair, text: "El işçiliği deri salon" },
-  { Icon: MonitorPlay, text: "Geniş ekran" },
-  { Icon: Lightbulb, text: "Ambiyans aydınlatma" },
-  { Icon: Blinds, text: "Perdeli özel cam" },
-  { Icon: Snowflake, text: "Güçlü klima" },
-  { Icon: Luggage, text: "Geniş bagaj hacmi" },
-];
+const FEAT_ICONS = [Armchair, MonitorPlay, Lightbulb, Blinds, Snowflake, Luggage];
 
 export default function VehicleShowcase() {
   const ref = useReveal();
+  const { t } = useT();
   const [active, setActive] = useState(0);
+
+  const photoLabels = t("showcase.photoLabels");
+  const featTexts = t("showcase.feats");
+
+  const PHOTOS = PHOTO_SRCS.map((src, i) => ({ src, label: photoLabels[i] }));
+  const FEATS = FEAT_ICONS.map((Icon, i) => ({ Icon, text: featTexts[i] }));
 
   return (
     <section className="section section--alt" id="araclar" ref={ref}>
       <div className="wrap">
         <div className="section-head reveal">
-          <span className="eyebrow">Aracımız</span>
-          <h2 className="h-section">Özel tasarım Ford VIP</h2>
-          <p>
-            Tek bir aracımız var; ama tam donanımlı. El işçiliğiyle döşenmiş deri salon, ekran ve
-            ambiyans aydınlatmasıyla yolculuğu bir deneyime dönüştürür.
-          </p>
+          <span className="eyebrow">{t("showcase.eyebrow")}</span>
+          <h2 className="h-section">{t("showcase.heading")}</h2>
+          <p>{t("showcase.sub")}</p>
         </div>
 
         <div className="showcase">
@@ -64,14 +62,10 @@ export default function VehicleShowcase() {
 
           <div className="showcase__info reveal" data-d="1">
             <div className="showcase__head">
-              <h3 className="vehicle__name">Ford VIP Transfer</h3>
-              <span className="vehicle__cap">VIP · özel döşeme</span>
+              <h3 className="vehicle__name">{t("showcase.vehicleName")}</h3>
+              <span className="vehicle__cap">{t("showcase.vehicleCap")}</span>
             </div>
-            <p className="showcase__desc">
-              Geniş deri koltuklar, sessiz iç mekan ve sıcak ambiyans aydınlatmasıyla havalimanı
-              transferinden uzun yola kadar premium konfor. Perdeli camlar ve ekran ile özel
-              alanınız yolda da yanınızda.
-            </p>
+            <p className="showcase__desc">{t("showcase.desc")}</p>
             <ul className="showcase__feats">
               {FEATS.map(({ Icon, text }) => (
                 <li key={text}>
@@ -81,15 +75,15 @@ export default function VehicleShowcase() {
             </ul>
             <div className="showcase__cta">
               <a href="#iletisim" className="btn btn--primary btn--lg">
-                <CalendarCheck /> Rezervasyon
+                <CalendarCheck /> {t("showcase.ctaBook")}
               </a>
               <a
                 className="btn btn--wa btn--lg"
-                href={waLink("Merhaba, Ford VIP aracınız için rezervasyon yapmak istiyorum.")}
+                href={waLink(t("showcase.waMsg"))}
                 target="_blank"
                 rel="noopener"
               >
-                <MessageCircle /> WhatsApp&apos;tan Yaz
+                <MessageCircle /> {t("showcase.ctaWa")}
               </a>
             </div>
           </div>
