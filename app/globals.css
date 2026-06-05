@@ -545,6 +545,10 @@ h1, h2, h3 { line-height: 1.08; letter-spacing: -0.02em; font-weight: 800; color
   .form-grid { grid-template-columns: 1fr; }
   .footer__top { grid-template-columns: 1fr; }
   .hero__cta .btn { flex: 1; }
+  /* Anchor to viewport bottom instead of section bottom so the tag
+     never overflows into the next section when hero content causes
+     the section to grow taller than 100svh on narrow screens. */
+  .hero__tag { bottom: auto; top: calc(100svh - 58px); }
 }
 
 
