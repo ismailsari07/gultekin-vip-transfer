@@ -3,21 +3,26 @@ import { useState } from "react";
 import { MessageCircle, Phone, MapPin, Clock, Lock } from "lucide-react";
 import { CONTACT, waLink, telLink } from "@/lib/contact";
 import { useReveal } from "@/lib/useReveal";
+import SearchableSelect from "@/components/SearchableSelect";
+import { LOCATIONS } from "@/lib/locations";
 
 export default function Contact() {
   const ref = useReveal();
   const [sending, setSending] = useState(false);
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
 
   function onSubmit(e) {
     e.preventDefault();
     const d = new FormData(e.currentTarget);
     const get = (k) => (d.get(k) || "").toString().trim();
+    const route = from && to ? `${from} → ${to}` : from || to || "-";
     const lines = [
       "🚐 *Gültekin VIP Transfer — Rezervasyon Talebi*",
       "",
       `👤 Ad Soyad: ${get("name") || "-"}`,
       `📞 Telefon: ${get("phone") || "-"}`,
-      `🗺️ Güzergah: ${get("route") || "-"}`,
+      `🗺️ Güzergah: ${route}`,
       `📅 Tarih: ${get("date") || "-"}`,
       `👥 Kişi sayısı: ${get("people") || "-"}`,
       `🧭 Yolculuk tipi: ${get("vehicle") || "-"}`,
@@ -104,9 +109,27 @@ export default function Contact() {
                 </label>
                 <input id="f-phone" name="phone" type="tel" placeholder="05XX XXX XX XX" required />
               </div>
-              <div className="field field--full">
-                <label htmlFor="f-route">Güzergah</label>
-                <input id="f-route" name="route" type="text" placeholder="Örn: Antalya Havalimanı → Kemer" />
+              <div className="field">
+                <label htmlFor="f-from">Nereden</label>
+                <SearchableSelect
+                  id="f-from"
+                  name="from"
+                  placeholder="Kalkış noktası"
+                  options={LOCATIONS}
+                  value={from}
+                  onChange={setFrom}
+                />
+              </div>
+              <div className="field">
+                <label htmlFor="f-to">Nereye</label>
+                <SearchableSelect
+                  id="f-to"
+                  name="to"
+                  placeholder="Varış noktası"
+                  options={LOCATIONS}
+                  value={to}
+                  onChange={setTo}
+                />
               </div>
               <div className="field">
                 <label htmlFor="f-date">Tarih</label>
