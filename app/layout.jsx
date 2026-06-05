@@ -15,7 +15,7 @@ const spaceMono = Space_Mono({
   display: "swap",
 });
 
-const SITE_URL = "https://gultekinviptransfer.com";
+const SITE_URL = "https://gultekin-vip-transfer.vercel.app";
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
